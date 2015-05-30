@@ -10,4 +10,4 @@ Planned:
 * Finding LiveStreamer location automatically
 * Favorites list with online check
 * Nicer presentation 
-** Better presentation of streams
+  * Better presentation of streams
