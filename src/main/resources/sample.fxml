@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<GridPane alignment="center" prefWidth="800" prefHeight="600" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.bay.twitcher.TwitcherController">
+    <padding>
+        <Insets bottom="10" left="25" right="25" top="25"/>
+    </padding>
+    <ComboBox fx:id="streamCombo" editable="true" minWidth="100" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <ComboBox fx:id="qualityCombo" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    <Button fx:id="watchButton" text="Watch" GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#watch"/>
+
+
+</GridPane>
