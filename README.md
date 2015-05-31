@@ -8,7 +8,7 @@ Streams update every 5 minutes.
 
 #Prequesites
 Java 8 installed.  
-Livestreamer installaed and on path.
+Livestreamer installed and on path.
 
 #Planned:
 * ~~Finding LiveStreamer location automatically~~
