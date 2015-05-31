@@ -2,6 +2,8 @@ package at.bay.twitcher
 
 import groovy.json.JsonSlurper
 import javafx.collections.FXCollections
+import javafx.collections.ObservableList
+import javafx.collections.transformation.FilteredList
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.ComboBox
@@ -12,36 +14,48 @@ import javafx.scene.input.KeyEvent
 import javafx.util.Callback
 import javafx.util.StringConverter
 
-
 /**
  * Created by pbayer.*/
 class TwitcherController implements Initializable {
-
-	static private List<Stream> streams = []
 
 	@FXML
 	private ComboBox<Stream> streamCombo;
 
 	@FXML
 	private ComboBox<Quality> qualityCombo
-	private List<Stream> streamList
 
-	@Override
-	void initialize(URL location, ResourceBundle resources) {
+	private ObservableList<Stream> streamList = FXCollections.observableArrayList()
+
+	private FilteredList<Stream> filteredStreamList = new FilteredList<>(streamList)
+
+	def updateStreamList = {
 		String text = 'https://api.twitch.tv/kraken/streams?limit=100'.toURL().text
 		def json = new JsonSlurper().parseText(text)
-		streamList = streams
+		streamList.clear()
 		json.streams.each { stream ->
 			streamList.add(new Stream(name: stream.channel.name, game: stream.channel.game, url: stream.channel.url, status: stream
 					.channel.status, viewers: stream.viewers))
 		}
+	}
 
-		streamCombo.setItems(FXCollections.observableList(streamList))
+	@Override
+	void initialize(URL location, ResourceBundle resources) {
+		streamCombo.setItems(filteredStreamList)
+		Thread.startDaemon {
+			while (true) {
+				sleep(300000)
+				updateStreamList()
+				println 'updated'
+			}
+		}
+
+		updateStreamList()
+
 		streamCombo.getEditor().addEventFilter(KeyEvent.KEY_PRESSED, { nV
 			->
-			streamCombo.setItems(FXCollections.observableList(streamList.findAll({
+			filteredStreamList.setPredicate {
 				it.toString().toLowerCase().contains(streamCombo.getEditor().getText().toLowerCase())
-			})))
+			}
 			streamCombo.show()
 		})
 		streamCombo.setConverter(new StringConverter<Stream>() {
@@ -84,8 +98,7 @@ class TwitcherController implements Initializable {
 
 	@FXML
 	private void watch() {
-		new ProcessBuilder('livestreamer.exe', "${streamCombo.getValue().url}", "${qualityCombo.getValue().toString().toLowerCase()}").directory(new
-				File('c:\\program files (x86)\\livestreamer')).start()
+		new ProcessBuilder('livestreamer', "${streamCombo.getValue().url}", "${qualityCombo.getValue().toString().toLowerCase()}").start()
 	}
 
 }
