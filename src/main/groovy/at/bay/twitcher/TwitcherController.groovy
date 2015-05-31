@@ -41,23 +41,20 @@ class TwitcherController implements Initializable {
 	@Override
 	void initialize(URL location, ResourceBundle resources) {
 		streamCombo.setItems(filteredStreamList)
-		Thread.startDaemon {
-			while (true) {
-				sleep(300000)
-				updateStreamList()
-				println 'updated'
-			}
-		}
 
+		initUpdateThread()
 		updateStreamList()
 
-		streamCombo.getEditor().addEventFilter(KeyEvent.KEY_PRESSED, { nV
+
+		def filterStreamsByInput = { ev
 			->
 			filteredStreamList.setPredicate {
 				it.toString().toLowerCase().contains(streamCombo.getEditor().getText().toLowerCase())
 			}
 			streamCombo.show()
-		})
+		}
+		streamCombo.getEditor().addEventFilter(KeyEvent.KEY_PRESSED, filterStreamsByInput)
+
 		streamCombo.setConverter(new StringConverter<Stream>() {
 
 			@Override
@@ -81,7 +78,8 @@ class TwitcherController implements Initializable {
 
 					@Override
 					String toString(Stream object) {
-						object.toString()
+						sprintf('Name: %1$-20.20s | Status: %2$-25.25s | Game: %3$-30.30s | Viewer: %4$-6s', object.name, object.status, object.game,
+								object.viewers)
 					}
 
 					@Override
@@ -94,6 +92,15 @@ class TwitcherController implements Initializable {
 
 		Quality.each { q -> qualityCombo.getItems().add(q) }
 		qualityCombo.setValue(Quality.BEST)
+	}
+
+	private Thread initUpdateThread() {
+		Thread.startDaemon {
+			while (true) {
+				sleep(300000)
+				updateStreamList()
+			}
+		}
 	}
 
 	@FXML
