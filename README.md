@@ -1,13 +1,17 @@
 # Twitcher
-Simple Project to start LiveStreamer with a Twitch stream. 
+Simple Project to start LiveStreamer with a Twitch stream.
 In other words, a (simple)GUI for LiveStreamer.
 
-LiveStreamer location is not yet configurable.
 Top 100 streams from twitch are shwon.
 Autocomplete selection for streams.
+Streams update every 5 minutes-
 
-Planned:
-* Finding LiveStreamer location automatically
+#Prequesites
+Java 8 installed.
+Livestreamer installaed and on path.
+
+#Planned:
+* ~~Finding LiveStreamer location automatically~~
 * Favorites list with online check
-* Nicer presentation 
-  * Better presentation of streams
+* Nicer presentation
+  * ~~Better presentation of streams~~
