@@ -13,5 +13,6 @@ Livestreamer installed and on path.
 #Planned:
 * ~~Finding LiveStreamer location automatically~~
 * Favorites list with online check
+* Online stream search
 * Nicer presentation
   * ~~Better presentation of streams~~

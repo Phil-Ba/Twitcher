@@ -78,7 +78,7 @@ class TwitcherController implements Initializable {
 
 					@Override
 					String toString(Stream object) {
-						sprintf('Name: %1$-20.20s | Status: %2$-25.25s | Game: %3$-30.30s | Viewer: %4$-6s', object.name, object.status, object.game,
+						sprintf('Name: %1$-20.20s | Status: %2$-35.35s | Game: %3$-30.30s | Viewer: %4$-6s', object.name, object.status, object.game,
 								object.viewers)
 					}
 
